@@ -25,3 +25,52 @@ class Solution {
 // if there is repeated element then 
 // if we will treat it like index
 // it will return us back in the array
+
+class Solution {
+    public int findDuplicate(int[] nums) {
+        int slow = 0;
+        int fast = 0;
+        do {
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+        } while (slow != fast);
+        slow = 0;
+        while (slow != fast) {
+            slow = nums[slow];
+            fast = nums[fast];
+        }
+        
+        return slow;    
+        }
+}
+
+// binary search
+// we select middle from 1 to n range
+// then count elements >= middle
+// if counted elements > middle
+// then we should check right part
+
+class Solution {
+    public int findDuplicate(int[] nums) {
+        int len = nums.length;
+        int left = 1;
+        int right = len - 1;
+
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            int cnt = 0;
+            for(int num: nums) {
+                if (num <= mid) {
+                    ++cnt;
+                }
+            }
+
+            if (cnt <= mid) {
+                left = mid + 1;
+            } else {
+                right = mid;
+            }
+        }
+        return left;
+    }
+}
